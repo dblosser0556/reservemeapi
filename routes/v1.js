@@ -4,8 +4,12 @@ const router 			= express.Router();
 const UserController 	= require('../controllers/user.controller');
 const CompanyController = require('../controllers/company.controller');
 const HomeController 	= require('../controllers/home.controller');
+const FacilityController = require('../controllers/facility.controller');
+const ResourceController = require('../controllers/resource.controller');
+const ReservationController = require('../controllers/reservation.controller');
+const UserRoleController = require('../controllers/userrole.controller');
 
-const custom 	        = require('./../middleware/custom');
+
 
 const passport      	= require('passport');
 const path              = require('path');
@@ -24,12 +28,30 @@ router.put(     '/users',           passport.authenticate('jwt', {session:false}
 router.delete(  '/users',           passport.authenticate('jwt', {session:false}), UserController.remove);     // D
 router.post(    '/users/login',     UserController.login);
 
-router.post(    '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.create);                  // C
-router.get(     '/companies',             passport.authenticate('jwt', {session:false}), CompanyController.getAll);                  // R
+router.post(    '/facilities',              passport.authenticate('jwt', {session:false}), FacilityController.create);  // C
+router.get(     '/facilities',              passport.authenticate('jwt', {session:false}), FacilityController.getAll);  // R
+router.get(     '/facilities/:facility_id', passport.authenticate('jwt', {session:false}), FacilityController.get);     // R
+router.put(     '/facilities/:facility_id', passport.authenticate('jwt', {session:false}), FacilityController.update);  // U
+router.delete(  '/facilities/:facility_id', passport.authenticate('jwt', {session:false}), FacilityController.remove);  // D
 
-router.get(     '/companies/:company_id', passport.authenticate('jwt', {session:false}), custom.company, CompanyController.get);     // R
-router.put(     '/companies/:company_id', passport.authenticate('jwt', {session:false}), custom.company, CompanyController.update);  // U
-router.delete(  '/companies/:company_id', passport.authenticate('jwt', {session:false}), custom.company, CompanyController.remove);  // D
+router.post(    '/resources',              passport.authenticate('jwt', {session:false}), ResourceController.create);  // C
+router.get(     '/resources',              passport.authenticate('jwt', {session:false}), ResourceController.getAll);  // R
+router.get(     '/resources/:resource_id', passport.authenticate('jwt', {session:false}), ResourceController.get);     // R
+router.put(     '/resources/:resource_id', passport.authenticate('jwt', {session:false}), ResourceController.update);  // U
+router.delete(  '/resources/:resource_id', passport.authenticate('jwt', {session:false}), ResourceController.remove);  // D
+
+router.post(    '/reservations',              passport.authenticate('jwt', {session:false}), ReservationController.create);  // C
+router.get(     '/reservations',              passport.authenticate('jwt', {session:false}), ReservationController.getAll);  // R
+router.get(     '/reservations/:reservation_id', passport.authenticate('jwt', {session:false}), ReservationController.get);     // R
+router.put(     '/reservations/:reservation_id', passport.authenticate('jwt', {session:false}), ReservationController.update);  // U
+router.delete(  '/reservations/:reservation_id', passport.authenticate('jwt', {session:false}), ReservationController.remove);  // D
+
+router.post(    '/userroles',              passport.authenticate('jwt', {session:false}), UserRoleController.create);  // C
+router.get(     '/userroles',              passport.authenticate('jwt', {session:false}), UserRoleController.getAll);  // R
+router.get(     '/userroles/:userRole_id', passport.authenticate('jwt', {session:false}), UserRoleController.get);     // R
+router.put(     '/userroles/:userRole_id', passport.authenticate('jwt', {session:false}), UserRoleController.update);  // U
+router.delete(  '/userroles/:userRole_id', passport.authenticate('jwt', {session:false}), UserRoleController.remove);  // D
+
 
 router.get('/dash', passport.authenticate('jwt', {session:false}),HomeController.Dashboard)
 
