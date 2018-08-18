@@ -13,8 +13,12 @@ module.exports = (sequelize, DataTypes) => {
 
 
    
-   
+    Model.associate = function (models) {
+        this.Users = this.belongsTo(models.User);
+        this.Resources = this.belongsTo(models.Resource);
+    };
 
+  
     Model.prototype.toWeb = function (pw) {
         let json = this.toJSON();
         return json;

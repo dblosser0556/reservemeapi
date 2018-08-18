@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
     Model.associate = function (models) {
+        this.Facilities = this.belongsTo(models.Facility);
         this.Reservations = this.hasMany(models.Reservation);
     };
 

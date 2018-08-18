@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
         maxReservationPeriod: DataTypes.SMALLINT,
         maxReservationsPerDay: DataTypes.SMALLINT,
-        maxReservationsPerPeriod: DataTypes.SMALLINT
+        maxReservationsPerPeriod: DataTypes.SMALLINT,
+        isAdmin: DataTypes.BOOLEAN,
+        isSuperAdmin: DataTypes.BOOLEAN
     });
 
 

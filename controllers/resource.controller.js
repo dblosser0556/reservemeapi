@@ -21,7 +21,7 @@ const getAll = async function(req, res){
     let user = req.user;
     let err, resources;
 
-    [err, resources] = await to(Resource.findAll());
+    [err, resources] = await to(Resource.findAll({where: {FacilityId: user.FacilityId}}));
 
     let resources_json =[]
     for( let i in resources){

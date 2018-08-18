@@ -22,11 +22,13 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.post(    '/users',           UserController.create);                                                    // C
-router.get(     '/users',           passport.authenticate('jwt', {session:false}), UserController.get);        // R
-router.put(     '/users',           passport.authenticate('jwt', {session:false}), UserController.update);     // U
-router.delete(  '/users',           passport.authenticate('jwt', {session:false}), UserController.remove);     // D
-router.post(    '/users/login',     UserController.login);
+router.post(    '/users',                 UserController.create);                                                    // C
+router.get(     '/users',                 passport.authenticate('jwt', {session:false}), UserController.getAll);        // R
+router.get(     '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.get);   
+router.get(     '/users/new/:facility_id',             passport.authenticate('jwt', {session:false}), UserController.getNewUsers);     // R
+router.put(     '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.update);     // U
+router.delete(  '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.remove);     // D
+router.post(    '/users/login',           UserController.login);
 
 router.post(    '/facilities',              passport.authenticate('jwt', {session:false}), FacilityController.create);  // C
 router.get(     '/facilities',              passport.authenticate('jwt', {session:false}), FacilityController.getAll);  // R

@@ -1,4 +1,7 @@
 const { User } 	    = require('../models');
+const { Facility }  = require('../models');
+const { UserRole } = require('../models');
+
 const validator     = require('validator');
 const { to, TE }    = require('../services/util.service');
 
@@ -34,6 +37,8 @@ const createUser = async (userInfo) => {
         [err, user] = await to(User.create(userInfo));
         if(err) TE('user already exists with that email');
 
+        [err, user] = await to(User.findOne({include: [{all: true}], where:{email:unique_key}}));
+        if(err) TE(err.message);
         return user;
 
     }else if(validator.isMobilePhone(unique_key, 'any')){//checks if only phone number was sent
@@ -43,6 +48,8 @@ const createUser = async (userInfo) => {
         [err, user] = await to(User.create(userInfo));
         if(err) TE('user already exists with that phone number');
 
+        [err, user] = await to(User.findOne({include: [{all: true}], where:{phone:unique_key}}));
+        if(err) TE(err.message);
         return user;
     }else{
         TE('A valid email or phone number was not entered.');
@@ -65,13 +72,13 @@ const authUser = async function(userInfo){//returns token
     if(validator.isEmail(unique_key)){
         auth_info.method='email';
 
-        [err, user] = await to(User.findOne({where:{email:unique_key}}));
+        [err, user] = await to(User.findOne({include: [{all: true}], where:{email:unique_key}}));
         if(err) TE(err.message);
 
     }else if(validator.isMobilePhone(unique_key, 'any')){//checks if only phone number was sent
         auth_info.method='phone';
 
-        [err, user] = await to(User.findOne({where:{phone:unique_key }}));
+        [err, user] = await to(User.findOne({include: [{all: true}], where:{phone:unique_key }}));
         if(err) TE(err.message);
 
     }else{

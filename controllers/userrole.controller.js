@@ -21,7 +21,7 @@ const getAll = async function(req, res){
     let user = req.user;
     let err, userRoles;
 
-    [err, userRoles] = await to(UserRole.findAll());
+    [err, userRoles] = await to(UserRole.findAll({where: {FacilityId: user.FacilityId}}));
 
     let userRoles_json =[]
     for( let i in userRoles){

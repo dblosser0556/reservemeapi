@@ -1,5 +1,7 @@
 const { Reservation } = require('../models');
+const { Sequelize} = require('sequelize');
 const { to, ReE, ReS } = require('../services/util.service');
+const  moment  = require('moment');
 
 const create = async function(req, res){
     let err, reservation;
@@ -20,16 +22,20 @@ module.exports.create = create;
 const getAll = async function(req, res){
     let resourceId, beginDate, endDate;
     resourceId = req.query.resourceId;
-    beginDate = Date(req.query.beginDate);
-    endDate = Date(req.query.endDate);
+    beginDate = moment(req.query.beginDate).toDate();
+    endDate = moment(req.query.endDate).toDate();
     
     let err, reservations;
 
     [err, reservations] = await to(Reservation.findAll({
         where: 
             {
+            ResourceId: resourceId,
             startDateTime: {
-                [Sequelize.Op.ge]: beginDate
+                [Sequelize.Op.gte]: beginDate
+            },
+            endDateTime: {
+                [Sequelize.Op.lte]: endDate
             }
 
         }

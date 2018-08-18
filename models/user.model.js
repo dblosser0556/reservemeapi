@@ -42,12 +42,12 @@ module.exports = (sequelize, DataTypes) => {
    
 
     Model.associate = function (models) {
+        this.Facilities = this.belongsTo(models.Facility);
+        this.UserRoles = this.belongsTo(models.UserRole);
         this.Reservations = this.hasMany(models.Reservation);
     };
 
-    Model.associate = function (models) {
-        this.Facilities = this.belongsTo(models.Facility);
-    }
+    
 
     Model.beforeSave(async (user, options) => {
         let err;

@@ -16,17 +16,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
 
+  
   Model.associate = function (models) {
     this.Users = this.hasMany(models.User);
-  };
-
-  Model.associate = function (models) {
     this.UserRoles = this.hasMany(models.UserRole);
-  };
-
-  Model.associate = function (models) {
     this.Resources = this.hasMany(models.Resource);
   };
+
+  //Model.associate = function (models) {
+  //  this.Resources = this.hasMany(models.Resource);
+  //};
 
   Model.prototype.toWeb = function (pw) {
     let json = this.toJSON();
