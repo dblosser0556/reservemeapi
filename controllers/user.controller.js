@@ -5,7 +5,8 @@ const authService = require('../services/auth.service');
 const {
     to,
     ReE,
-    ReS
+    ReS,
+    queryParse
 } = require('../services/util.service');
 
 
@@ -54,11 +55,15 @@ const getNewUsers = async function (req, res) {
 module.exports.getNewUsers = getNewUsers;
 
 const getAll = async function (req, res) {
-    let err, users;
-   
-   
-    
-    [err, users] = await to(User.findAll({include: {all: true}}));
+    let err, users, query, include;
+     let whereQuery = {};
+    whereQuery = queryParse(req.query);
+
+ 
+    console.log(whereQuery);
+  
+    [err, users] = await to(User.findAll({where: whereQuery, include:{all: true}}));
+   // [err, users] = await to(User.findAll({include: {all: true}}));
     if (err) return ReE(res, "err finding users");
 
 
@@ -97,8 +102,12 @@ const get = async function (req, res) {
 module.exports.get = get;
 
 const update = async function (req, res) {
-    let err, user, data
-    user = req.user;
+    let err, user, data, userId;
+    userId = req.params.user_id;
+
+    [err, user] = await to(User.findOne({where:{id: userId}}));
+    if (err) return ReE(res, "err finding user");
+
     data = req.body;
     user.set(data);
 
@@ -112,6 +121,31 @@ const update = async function (req, res) {
     });
 }
 module.exports.update = update;
+
+const patch = async function (req, res) {
+    let err, user, data, userId, updatedUser;
+    userId = req.params.user_id;
+    data = {};
+    for (const attr of Object.keys(req.body)) {
+        data[attr] = req.body[attr];
+    }
+
+
+    [err, user] = await to(User.update(data, {returning: true, where:{id: userId}}));
+    if (err) {
+        if (err.message == 'Validation error') err = 'The email address or phone number is already in use';
+        return ReE(res, err);
+    }
+    [err, user] = await to(User.findOne({where:{id: userId}}));
+    if (err) {      
+        return ReE(res, err);
+    }
+    return ReS(res, {
+        message: 'Updated User: ' + user.email
+    });
+}
+module.exports.patch = patch;
+
 
 const remove = async function (req, res) {
     let user, err;

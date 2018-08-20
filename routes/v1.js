@@ -8,7 +8,7 @@ const FacilityController = require('../controllers/facility.controller');
 const ResourceController = require('../controllers/resource.controller');
 const ReservationController = require('../controllers/reservation.controller');
 const UserRoleController = require('../controllers/userrole.controller');
-
+const MailController = require('../controllers/mail.controller');
 
 
 const passport      	= require('passport');
@@ -25,8 +25,9 @@ router.get('/', function(req, res, next) {
 router.post(    '/users',                 UserController.create);                                                    // C
 router.get(     '/users',                 passport.authenticate('jwt', {session:false}), UserController.getAll);        // R
 router.get(     '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.get);   
-router.get(     '/users/new/:facility_id',             passport.authenticate('jwt', {session:false}), UserController.getNewUsers);     // R
+router.get(     '/users/new/:facility_id',passport.authenticate('jwt', {session:false}), UserController.getNewUsers);     // R
 router.put(     '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.update);     // U
+router.patch(   '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.patch);  // U
 router.delete(  '/users/:user_id',        passport.authenticate('jwt', {session:false}), UserController.remove);     // D
 router.post(    '/users/login',           UserController.login);
 
@@ -54,6 +55,7 @@ router.get(     '/userroles/:userRole_id', passport.authenticate('jwt', {session
 router.put(     '/userroles/:userRole_id', passport.authenticate('jwt', {session:false}), UserRoleController.update);  // U
 router.delete(  '/userroles/:userRole_id', passport.authenticate('jwt', {session:false}), UserRoleController.remove);  // D
 
+router.post(    '/sendmail',               passport.authenticate('jwt', {session:false}), MailController.sendmail);
 
 router.get('/dash', passport.authenticate('jwt', {session:false}),HomeController.Dashboard)
 

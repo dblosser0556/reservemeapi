@@ -15,4 +15,9 @@ CONFIG.db_password  = process.env.DB_PASSWORD   || 'db-password';
 CONFIG.jwt_encryption  = process.env.JWT_ENCRYPTION || 'jwt_please_change';
 CONFIG.jwt_expiration  = process.env.JWT_EXPIRATION || '10000';
 
+CONFIG.mail_host        = process.env.MAIL_HOST     || 'smtp.gmail.com'
+CONFIG.mail_username    = process.env.MAIL_USERNAME || 'username';
+CONFIG.mail_password    = process.env.MAIL_PASSWORD || 'password';
+CONFIG.mail_ssl         = process.env.MAIL_SSL      || true;
+
 module.exports = CONFIG;

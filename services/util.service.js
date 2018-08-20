@@ -40,4 +40,20 @@ module.exports.TE = TE = function(err_message, log){ // TE stands for Throw Erro
     throw new Error(err_message);
 };
 
+module.exports.queryParse = queryParse = function(queryParmeters) {
+    let whereQuery = {};
+
+    for (let key of Object.keys(queryParmeters)){
+        let value;
+        value = queryParmeters[key];
+        if (!isNaN(value)) value = Number(value);
+        if (value === 0) value = null;
+        
+        whereQuery[key] = value;
+    }
+
+    return whereQuery;
+
+};
+
 
