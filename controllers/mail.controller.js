@@ -12,7 +12,7 @@ const sendmail = function(req, res){
         host: CONFIG.mail_host,
         ssl: CONFIG.mail_ssl
     });
-
+ 
     // const message = req.body;
     var message	= {
         text:	"i hope this works", 
