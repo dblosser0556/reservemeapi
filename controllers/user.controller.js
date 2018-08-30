@@ -1,5 +1,5 @@
 const {
-    User
+    User, UserRole, Facility, Reservation
 } = require('../models');
 const authService = require('../services/auth.service');
 const {
@@ -8,7 +8,9 @@ const {
     ReS,
     queryParse
 } = require('../services/util.service');
-
+const moment  = require('moment');
+const Sequelize = require('Sequelize');
+const Op = Sequelize.Op;
 
 const create = async function (req, res) {
     const body = req.body;
@@ -84,17 +86,10 @@ module.exports.getAll = getAll;
 const get = async function (req, res) {
     let user_id, err, user;
     user_id = req.params.user_id;
-
-    [err, user] = await to(User.findOne({
-        include: {
-            all: true
-        },
-        where: {
-            id: user_id
-        }
-    }));
+    [err, role] = await to(User.findOne({include: [{model: UserRole}, {model: Facility}], where: {id: user_id}}));
     if (err) return ReE(res, "err finding user");
 
+   
     return ReS(res, {
         user: user.toWeb()
     });
@@ -165,9 +160,27 @@ const login = async function (req, res) {
     const body = req.body;
     let err, user;
 
-    [err, user] = await to(authService.authUser(req.body));
+    [err, user] = await to(authService.authUser(body));
     if (err) return ReE(res, err, 422);
 
+
+    beginDate = moment().startOf('day').toDate();
+    endDate = moment().add(user.UserRole.maxReservationPeriod, 'days').endOf('day').toDate();
+
+    [err, user] = await to(User.findOne({
+        include: [{ model: UserRole },
+            { model: Facility },
+            { model: Reservation,
+                where:  {start: {[Op.gte]: beginDate},
+                        end: {[Op.lte]: endDate} },
+                required: false},
+                   
+        ],
+        where: {
+            id: user.id
+        }
+    }));
+    if (err) return ReE(res, "err finding user");
 
     return ReS(res, {
         token: user.getJWT(),

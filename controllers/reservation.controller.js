@@ -31,10 +31,10 @@ const getAll = async function(req, res){
         where: 
             {
             ResourceId: resourceId,
-            startDateTime: {
+            start: {
                 [Sequelize.Op.gte]: beginDate
             },
-            endDateTime: {
+            end: {
                 [Sequelize.Op.lte]: endDate
             }
 

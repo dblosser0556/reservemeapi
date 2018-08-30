@@ -6,9 +6,12 @@ const {
 module.exports = (sequelize, DataTypes) => {
     var Model = sequelize.define('Reservation', {
         title: DataTypes.STRING,
-        startDateTime: DataTypes.DATE,
-        endDateTime: DataTypes.DATE,
-        type: DataTypes.TINYINT
+        start: DataTypes.DATE,
+        end: DataTypes.DATE,
+        type: DataTypes.TINYINT,
+        rrule: DataTypes.STRING,
+        rruleStart: DateTypes.DATE,
+        rruleEnd: DataTypes.DATE
     });
 
 
