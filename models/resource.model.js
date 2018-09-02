@@ -9,7 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.STRING,
         maxReservationTime: DataTypes.SMALLINT,
         minReservationTime: DataTypes.SMALLINT,
-        displayOrder: DataTypes.SMALLINT
+        displayOrder: DataTypes.SMALLINT,
+        class: DataTypes.SMALLINT
     });
 
 

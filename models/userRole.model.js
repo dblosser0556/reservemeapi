@@ -9,8 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         maxReservationPeriod: DataTypes.SMALLINT,
         maxReservationsPerDay: DataTypes.SMALLINT,
         maxReservationsPerPeriod: DataTypes.SMALLINT,
+        class: DataTypes.SMALLINT,
         isAdmin: DataTypes.BOOLEAN,
-        canUserRecurring: DataTypes.BOOLEAN,
+        canUseRecurring: DataTypes.BOOLEAN,
         isSuperAdmin: DataTypes.BOOLEAN
     });
 

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         end: DataTypes.DATE,
         type: DataTypes.TINYINT,
         rrule: DataTypes.STRING,
-        rruleStart: DateTypes.DATE,
+        rruleStart: DataTypes.DATE,
         rruleEnd: DataTypes.DATE
     });
 
